@@ -1,0 +1,58 @@
+name: Generate VNOI Snake
+
+on:
+  schedule:
+    # Runs every 12 hours
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+    
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch VNOI contribution data
+        # Change "minhthaihuu304" to your target VNOI username
+        run: python fetch_vnoi.py "GiangNam2014"
+    
+      - name: Generate the snake files from data template
+        uses: Platane/snk@v3
+        id: snake-gif
+        with:
+          # Platane/snk supports reading a local mock file instead of standard github querying
+          # via passing the JSON path profile directly into the user field element.
+          github_user_name: ./vnoi_contributions.json
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+            dist/github-contribution-grid-snake.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show build status
+        run: git status
+
+      - name: Push new files to the output branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          commit_message: Update VNOI snake animations
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
