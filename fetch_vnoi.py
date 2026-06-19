@@ -13,7 +13,6 @@ def fetch_vnoi_activity(username):
         print(f"Error fetching VNOI profile: {response.status_code}")
         sys.exit(1)
         
-    # Search for the init_submission_table call containing the data dictionary
     match = re.search(r'window\.init_submission_table\(\s*\$,\s*(\{.*?\})\s*,\s*"[a-z]{2}"\s*\);', response.text)
     if not match:
         print("Could not find submission data on the page.")
@@ -21,7 +20,7 @@ def fetch_vnoi_activity(username):
         
     data = json.loads(match.group(1))
     
-    # Format data to a flat list of entries
+    # Format dates into the array template the engine maps out
     contributions = []
     for date_str, count in data.items():
         try:
@@ -30,10 +29,12 @@ def fetch_vnoi_activity(username):
         except ValueError:
             continue
             
-    # Write directly as a flat list
+    # Wrap entries inside a structured profile template block
+    out_data = {"contributions": contributions}
     with open("vnoi_contributions.json", "w") as f:
-        json.dump(contributions, f)
+        json.dump(out_data, f)
     print(f"Successfully processed {len(contributions)} activity days for {username}.")
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python fetch_vnoi.py <vnoi_username>")
