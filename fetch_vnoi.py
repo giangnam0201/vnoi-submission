@@ -1,10 +1,8 @@
-# fetch_vnoi.py
-
 import re
 import json
 import requests
 
-USERNAME = "minhthaihuu304"
+USERNAME = "GiangNam2014"
 
 html = requests.get(
     f"https://oj.vnoi.info/user/{USERNAME}",
@@ -18,11 +16,11 @@ match = re.search(
 )
 
 if not match:
-    raise RuntimeError("Could not find submission data")
+    raise RuntimeError("Cannot find submission data")
 
 data = json.loads(match.group(1))
 
 with open("contributions.json", "w") as f:
     json.dump(data, f, indent=2)
 
-print(f"Found {len(data)} active days")
+print(f"Saved {len(data)} active days")
