@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="833" height="136" viewBox="0 0 833 136">
+<rect width="100%" height="100%" fill="#0d1117"/>
+<rect x="0" y="102" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="0" y="34" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="17" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="34" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="51" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="68" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="85" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="136" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="136" y="17" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="136" y="34" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="153" y="102" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+<rect x="204" y="102" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="221" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="238" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="255" y="102" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="272" y="102" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="289" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="306" y="102" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="323" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="340" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="357" y="102" width="14" height="14" rx="2" ry="2" fill="#216e39"/>
+<rect x="374" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="391" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="425" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="442" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="459" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="476" y="102" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+<rect x="544" y="102" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+<rect x="561" y="102" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+<rect x="578" y="102" width="14" height="14" rx="2" ry="2" fill="#30a14e"/>
+<rect x="612" y="102" width="14" height="14" rx="2" ry="2" fill="#40c463"/>
+<rect x="629" y="102" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+<rect x="663" y="102" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+<rect x="799" y="68" width="14" height="14" rx="2" ry="2" fill="#9be9a8"/>
+
+        <circle r="5" fill="#58a6ff">
+            <animateMotion
+                dur="20s"
+                repeatCount="indefinite"
+                path="M 7 41 L 7 109 L 24 109 L 41 109 L 58 109 L 75 109 L 92 109 L 143 24 L 143 41 L 143 109 L 160 109 L 211 109 L 228 109 L 245 109 L 262 109 L 279 109 L 296 109 L 313 109 L 330 109 L 347 109 L 364 109 L 381 109 L 398 109 L 432 109 L 449 109 L 466 109 L 483 109 L 551 109 L 568 109 L 585 109 L 619 109 L 636 109 L 670 109 L 806 75 " />
+        </circle>
+        
+
+        <circle r="4" fill="#1f6feb">
+            <animateMotion
+                dur="20s"
+                begin="-0.4s"
+                repeatCount="indefinite"
+                path="M 7 41 L 7 109 L 24 109 L 41 109 L 58 109 L 75 109 L 92 109 L 143 24 L 143 41 L 143 109 L 160 109 L 211 109 L 228 109 L 245 109 L 262 109 L 279 109 L 296 109 L 313 109 L 330 109 L 347 109 L 364 109 L 381 109 L 398 109 L 432 109 L 449 109 L 466 109 L 483 109 L 551 109 L 568 109 L 585 109 L 619 109 L 636 109 L 670 109 L 806 75 " />
+        </circle>
+        
+
+        <circle r="3" fill="#1158c7">
+            <animateMotion
+                dur="20s"
+                begin="-0.8s"
+                repeatCount="indefinite"
+                path="M 7 41 L 7 109 L 24 109 L 41 109 L 58 109 L 75 109 L 92 109 L 143 24 L 143 41 L 143 109 L 160 109 L 211 109 L 228 109 L 245 109 L 262 109 L 279 109 L 296 109 L 313 109 L 330 109 L 347 109 L 364 109 L 381 109 L 398 109 L 432 109 L 449 109 L 466 109 L 483 109 L 551 109 L 568 109 L 585 109 L 619 109 L 636 109 L 670 109 L 806 75 " />
+        </circle>
+        
+</svg>
