@@ -1,42 +1,28 @@
-import sys
+# fetch_vnoi.py
+
 import re
 import json
 import requests
-from datetime import datetime
 
-def fetch_vnoi_activity(username):
-    url = f"https://oj.vnoi.info/user/{username}"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        print(f"Error fetching VNOI profile: {response.status_code}")
-        sys.exit(1)
-        
-    match = re.search(r'window\.init_submission_table\(\s*\$,\s*(\{.*?\})\s*,\s*"[a-z]{2}"\s*\);', response.text)
-    if not match:
-        print("Could not find submission data on the page.")
-        sys.exit(1)
-        
-    data = json.loads(match.group(1))
-    
-    # Format dates into the array template the engine maps out
-    contributions = []
-    for date_str, count in data.items():
-        try:
-            datetime.strptime(date_str, "%Y-%m-%d")
-            contributions.append({"date": date_str, "count": count})
-        except ValueError:
-            continue
-            
-    # Wrap entries inside a structured profile template block
-    out_data = {"contributions": contributions}
-    with open("vnoi_contributions.json", "w") as f:
-        json.dump(out_data, f)
-    print(f"Successfully processed {len(contributions)} activity days for {username}.")
+USERNAME = "minhthaihuu304"
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python fetch_vnoi.py <vnoi_username>")
-        sys.exit(1)
-    fetch_vnoi_activity(sys.argv[1])
+html = requests.get(
+    f"https://oj.vnoi.info/user/{USERNAME}",
+    headers={"User-Agent": "Mozilla/5.0"}
+).text
+
+match = re.search(
+    r'window\.init_submission_table\(\s*\$,\s*(\{.*?\})\s*,',
+    html,
+    re.S
+)
+
+if not match:
+    raise RuntimeError("Could not find submission data")
+
+data = json.loads(match.group(1))
+
+with open("contributions.json", "w") as f:
+    json.dump(data, f, indent=2)
+
+print(f"Found {len(data)} active days")
