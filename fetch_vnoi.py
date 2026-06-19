@@ -21,23 +21,19 @@ def fetch_vnoi_activity(username):
         
     data = json.loads(match.group(1))
     
-    # Format data to mimic standard contribution metrics Platane/snk looks for
-    # We turn it into a pseudo JSON mock structure
+    # Format data to a flat list of entries
     contributions = []
     for date_str, count in data.items():
         try:
-            # Validate format YYYY-MM-DD
             datetime.strptime(date_str, "%Y-%m-%d")
             contributions.append({"date": date_str, "count": count})
         except ValueError:
             continue
             
-    # Save a mock data profile file for the snake generator
-    out_data = {"contributions": contributions}
+    # Write directly as a flat list
     with open("vnoi_contributions.json", "w") as f:
-        json.dump(out_data, f)
+        json.dump(contributions, f)
     print(f"Successfully processed {len(contributions)} activity days for {username}.")
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python fetch_vnoi.py <vnoi_username>")
