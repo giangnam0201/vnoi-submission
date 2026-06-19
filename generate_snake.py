@@ -1,17 +1,16 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 
 CELL = 14
 GAP = 3
 
-with open("contributions.json", "r") as f:
+with open("contributions.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
+if not data:
+    raise RuntimeError("No contribution data found")
+
 dates = [datetime.strptime(d, "%Y-%m-%d") for d in data.keys()]
-
-if not dates:
-    raise RuntimeError("No submissions")
-
 start = min(dates)
 
 cells = []
@@ -21,108 +20,125 @@ for date_str, count in data.items():
 
     delta = (d - start).days
 
-    x = delta // 7
-    y = d.weekday()
+    week = delta // 7
+    weekday = d.weekday()
 
     cells.append({
-        "x": x,
-        "y": y,
+        "week": week,
+        "day": weekday,
         "count": count
     })
 
-max_x = max(c["x"] for c in cells)
+max_week = max(c["week"] for c in cells)
 
-width = (max_x + 2) * (CELL + GAP)
-height = 8 * (CELL + GAP)
+width = (max_week + 2) * (CELL + GAP)
+height = 7 * (CELL + GAP) + GAP
 
 def color(count):
     if count == 0:
-        return "#ebedf0"
+        return "#161b22"
     elif count < 5:
-        return "#9be9a8"
+        return "#0e4429"
     elif count < 15:
-        return "#40c463"
+        return "#006d32"
     elif count < 30:
-        return "#30a14e"
+        return "#26a641"
     else:
-        return "#216e39"
+        return "#39d353"
 
 svg = []
 
 svg.append(
     f'<svg xmlns="http://www.w3.org/2000/svg" '
-    f'width="{width}" height="{height}" '
+    f'width="{width}" '
+    f'height="{height}" '
     f'viewBox="0 0 {width} {height}">'
 )
 
-svg.append('<rect width="100%" height="100%" fill="#0d1117"/>')
+svg.append(
+    '<rect width="100%" height="100%" fill="#0d1117"/>'
+)
 
-path_points = []
-
-for cell in sorted(cells, key=lambda c: (c["x"], c["y"])):
-
-    px = cell["x"] * (CELL + GAP) + CELL // 2
-    py = cell["y"] * (CELL + GAP) + CELL // 2
-
-    path_points.append((px, py))
+# draw contributions
 
 for cell in cells:
-
-    px = cell["x"] * (CELL + GAP)
-    py = cell["y"] * (CELL + GAP)
+    x = cell["week"] * (CELL + GAP)
+    y = cell["day"] * (CELL + GAP)
 
     svg.append(
-        f'<rect x="{px}" y="{py}" '
-        f'width="{CELL}" height="{CELL}" '
-        f'rx="2" ry="2" '
+        f'<rect '
+        f'x="{x}" '
+        f'y="{y}" '
+        f'width="{CELL}" '
+        f'height="{CELL}" '
+        f'rx="2" '
         f'fill="{color(cell["count"])}"/>'
     )
 
-if len(path_points) > 1:
+# generate snake path over ENTIRE grid
 
-    path = f"M {path_points[0][0]} {path_points[0][1]} "
+path_points = []
 
-    for x, y in path_points[1:]:
-        path += f"L {x} {y} "
+for row in range(7):
+
+    if row % 2 == 0:
+
+        for col in range(max_week + 1):
+
+            x = col * (CELL + GAP) + CELL / 2
+            y = row * (CELL + GAP) + CELL / 2
+
+            path_points.append((x, y))
+
+    else:
+
+        for col in reversed(range(max_week + 1)):
+
+            x = col * (CELL + GAP) + CELL / 2
+            y = row * (CELL + GAP) + CELL / 2
+
+            path_points.append((x, y))
+
+path = (
+    f"M {path_points[0][0]} {path_points[0][1]} "
+)
+
+for x, y in path_points[1:]:
+    path += f"L {x} {y} "
+
+# snake body
+
+SEGMENTS = 12
+
+for i in range(SEGMENTS):
+
+    radius = max(2, 6 - i * 0.3)
+
+    opacity = max(0.15, 1 - i * 0.07)
 
     svg.append(
         f'''
-        <circle r="5" fill="#58a6ff">
+        <circle
+            r="{radius}"
+            fill="#58a6ff"
+            opacity="{opacity}">
             <animateMotion
-                dur="20s"
+                dur="25s"
                 repeatCount="indefinite"
+                begin="-{i * 0.18}s"
                 path="{path}" />
         </circle>
         '''
     )
 
-    svg.append(
-        f'''
-        <circle r="4" fill="#1f6feb">
-            <animateMotion
-                dur="20s"
-                begin="-0.4s"
-                repeatCount="indefinite"
-                path="{path}" />
-        </circle>
-        '''
-    )
+# eyes
 
-    svg.append(
-        f'''
-        <circle r="3" fill="#1158c7">
-            <animateMotion
-                dur="20s"
-                begin="-0.8s"
-                repeatCount="indefinite"
-                path="{path}" />
-        </circle>
-        '''
-    )
+head_x = path_points[0][0]
+head_y = path_points[0][1]
 
 svg.append("</svg>")
 
-with open("vnoi-snake.svg", "w", encoding="utf8") as f:
+with open("vnoi-snake.svg", "w", encoding="utf-8") as f:
     f.write("\n".join(svg))
 
 print("Generated vnoi-snake.svg")
