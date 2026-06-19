@@ -2,7 +2,6 @@ name: Generate VNOI Snake
 
 on:
   schedule:
-    # Runs every 12 hours
     - cron: "0 */12 * * *"
   workflow_dispatch:
   push:
@@ -22,31 +21,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-python-version: '3.x'
+          python-version: '3.x'
 
       - name: Install dependencies
         run: pip install requests
 
       - name: Fetch VNOI contribution data
-        # Change "minhthaihuu304" to your target VNOI username
         run: python fetch_vnoi.py "GiangNam2014"
-    
-      - name: Generate the snake files from data template
-        uses: Platane/snk@v3
-        id: snake-gif
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          # Platane/snk supports reading a local mock file instead of standard github querying
-          # via passing the JSON path profile directly into the user field element.
-          github_user_name: ./vnoi_contributions.json
-          outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-            dist/github-contribution-grid-snake.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Show build status
-        run: git status
+          node-version: '22'
+    
+      - name: Generate the snake animations locally
+        run: |
+          mkdir -p dist
+          # Run the engine directly using the JSON file we extracted
+          npx snk ./vnoi_contributions.json \
+            --output dist/github-contribution-grid-snake.svg \
+            --output "dist/github-contribution-grid-snake-dark.svg?palette=github-dark" \
+            --output "dist/github-contribution-grid-snake.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9"
 
       - name: Push new files to the output branch
         uses: crazy-max/ghaction-github-pages@v4
