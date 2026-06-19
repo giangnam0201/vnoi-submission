@@ -37,8 +37,9 @@ jobs:
       - name: Generate the snake animations locally
         run: |
           mkdir -p dist
-          # Use the correct npm package tool
-          npx generate-snake-animation@3 ./vnoi_contributions.json \
+          # Bypass positional checks using the gitlab local path mapping flag
+          npx generate-snake-animation@3 \
+            --gitlab_user ./vnoi_contributions.json \
             --output dist/github-contribution-grid-snake.svg \
             --output "dist/github-contribution-grid-snake-dark.svg?palette=github-dark" \
             --output "dist/github-contribution-grid-snake.gif?color_snake=orange&color_dots=#bfd6f6,#8dbdff,#64a1f4,#4b91f1,#3c7dd9"
