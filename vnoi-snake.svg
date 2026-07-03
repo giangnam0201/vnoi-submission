@@ -36,6 +36,7 @@
 <rect x="799" y="68" width="14" height="14" rx="2" fill="#0e4429"/>
 <rect x="816" y="17" width="14" height="14" rx="2" fill="#006d32"/>
 <rect x="833" y="34" width="14" height="14" rx="2" fill="#0e4429"/>
+<rect x="833" y="68" width="14" height="14" rx="2" fill="#006d32"/>
 
         <circle
             r="6.0"
